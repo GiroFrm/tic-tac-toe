@@ -5,7 +5,7 @@ function Gameboard() {
    const board = [];
    
    for(let i =0; i<rows; i++) {
-       board = [];
+       board[i] = [];
        for(let j =0; j<columns; j++) {
         board[i].push(Cell())
        } 
@@ -15,7 +15,7 @@ function Gameboard() {
 
    const dropToken =(column,row, player) =>{
       
-    if(! board[row][column].getValue()===0) return 
+    if(! board[row][column].getValue()!==0)  return 
 
     board[row][column].addToken(player);
         
@@ -27,7 +27,7 @@ function Gameboard() {
     console.log(boardWithCellValues);
    }
 
-   return (getBoard, dropToken, printBoard)
+   return { getBoard, dropToken, printBoard }
 }
 
 
