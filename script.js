@@ -32,7 +32,7 @@ function Gameboard() {
 
 
 function Cell() {
-    let value =0;
+    let value = 0;
 
     const getValue = () => value;
 
@@ -51,11 +51,11 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     const players = [
         {
             name: playerOneName,
-            token: 1
+            token: 'X'
         },
         {
             name: playerTwoName,
-            token: 2
+            token: 'O'
         }
     ]
 
@@ -93,12 +93,10 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
    const playRound = (column, row) => {
     if(gameOver) return;
 
-     //console.log( `Dropping ${getActivePlayer().name}'s token into column ${column}, row${row}`);
      board.dropToken(column, row, getActivePlayer().token)
      
      const winner = checkWinner();
           if(winner) {
-            console.log(`${players[winner -1 ].name} wins!`)
             gameOver=true;
            return;
           }
@@ -139,7 +137,8 @@ const boardDiv = document.querySelector('.board');
             cellButton.classList.add("cell");
             cellButton.dataset.column = cellIndex
             cellButton.dataset.row = rowIndex
-            cellButton.textContent = cell.getValue();
+            let marker = cell.getValue()===0 ? ' ' : cell.getValue();
+            cellButton.textContent = marker;
             boardDiv.appendChild(cellButton);
         })
     )
@@ -149,7 +148,6 @@ const boardDiv = document.querySelector('.board');
     const selectedRow = e.target.dataset.row
 
     game.playRound(selectedColumn, selectedRow);
-
     updateScreen();
    
 }
@@ -157,7 +155,6 @@ boardDiv.addEventListener("click" , clickHandlerBoard)
 
  updateScreen();
 }
-
 
 
 screenController();
