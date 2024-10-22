@@ -15,7 +15,7 @@ function Gameboard() {
 
    const dropToken =(column,row, player) =>{
       
-    if(! board[row][column].getValue()!==0)  return 
+    if(board[row][column].getValue()!==0)  return 
 
     board[row][column].addToken(player);
         
@@ -72,10 +72,33 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     console.log(`${getActivePlayer().name}'s turn.`)
    }
 
+   const checkWinner = () => {
+    const b = board.getBoard().map(row => row.map(cell => cell.getValue()));
+
+    // Check rows and columns
+    for (let i = 0; i < 3; i++) {
+        if (b[i][0] !== 0 && b[i][0] === b[i][1] && b[i][1] === b[i][2]) return b[i][0];
+        if (b[0][i] !== 0 && b[0][i] === b[1][i] && b[1][i] === b[2][i]) return b[0][i];
+    }
+
+    // Check diagonals
+    if (b[0][0] !== 0 && b[0][0] === b[1][1] && b[1][1] === b[2][2]) return b[0][0];
+    if (b[0][2] !== 0 && b[0][2] === b[1][1] && b[1][1] === b[2][0]) return b[0][2];
+
+    return null;
+}
+
+
    const playRound = (column, row) => {
 
      console.log( `Dropping ${getActivePlayer().name}'s token into column ${column}, row${row}`);
      board.dropToken(column, row, getActivePlayer().token)
+     
+     const winner = checkWinner();
+          if(winner) {
+            console.log(`${players[winner -1 ].name} wins!`)
+           return;
+          }
 
      switchPlayerTurn();
      printNewRound();
@@ -92,4 +115,10 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 }
 
 const game = GameController();
+
+game.playRound(0,0,1);
+game.playRound(0,2,2);
+game.playRound(1,1,1);
+game.playRound(2,1,2);
+game.playRound(2,2,1);
 
