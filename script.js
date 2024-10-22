@@ -93,7 +93,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
    const playRound = (column, row) => {
     if(gameOver) return;
 
-     console.log( `Dropping ${getActivePlayer().name}'s token into column ${column}, row${row}`);
+     //console.log( `Dropping ${getActivePlayer().name}'s token into column ${column}, row${row}`);
      board.dropToken(column, row, getActivePlayer().token)
      
      const winner = checkWinner();
