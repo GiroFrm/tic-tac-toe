@@ -61,6 +61,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 
     let activePlayer = players[0];
     let gameOver = false;
+    let winnertoken =null;
 
     const switchPlayerTurn = ()=> { 
         activePlayer = activePlayer === players[0] ? players[1] : players[0]
@@ -89,7 +90,6 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     return null;
 }
 
-
    const playRound = (column, row) => {
     if(gameOver) return;
 
@@ -98,13 +98,23 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
      const winner = checkWinner();
           if(winner) {
             gameOver=true;
+            winnertoken = winner
+            console.log('winner: '+winner)
            return;
           }
 
      switchPlayerTurn();
      printNewRound();
 
-   };
+   }
+  // return winner's name;
+   const getWinner = () =>{
+    if(winnertoken) {
+     const winnerName =   players.find(player=> player.token === winnertoken)
+       return winnerName ? winnerName.name: '';
+    }
+     return ' ';
+   } 
 
    printNewRound();
 
@@ -112,6 +122,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
     playRound,
     getActivePlayer,
     getBoard: board.getBoard,
+    getWinner
    }
   
 }
@@ -119,6 +130,7 @@ function GameController(playerOneName = "Player One", playerTwoName = "Player Tw
 function screenController() {
 const game = GameController();
 const playerTurnDiv = document.querySelector('.turn');
+const winnerDiv = document.querySelector('.winner');
 const boardDiv = document.querySelector('.board');
 
  const updateScreen = () => {
@@ -127,8 +139,9 @@ const boardDiv = document.querySelector('.board');
 
     const board = game.getBoard();
     const activePlayer = game.getActivePlayer();
-
+    
     playerTurnDiv.textContent = `${activePlayer.name} ' turn`;
+    winnerDiv.textContent= game.getWinner() ? `winner: ${game.getWinner()}` : '';
 
     board.forEach((row, rowIndex)=>
         row.forEach((cell, cellIndex)=>{
