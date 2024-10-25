@@ -1,3 +1,8 @@
+function refreshPage() {
+    window.location.reload();
+}
+
+
 
 function Gameboard() {
    let rows = 3;
@@ -168,7 +173,6 @@ boardDiv.addEventListener("click" , clickHandlerBoard)
 
  updateScreen();
 }
-
 
 screenController();
 
